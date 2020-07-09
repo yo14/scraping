@@ -2,19 +2,15 @@ from lxml import etree
 
 tree = etree.parse("src/web_page.html")
 
-title_element = tree.find("head/title")
-print(title_element.text)
+title_element = tree.xpath("//title/text()")[0]
+print(title_element)
 
-paragraph_element = tree.find("body/p")
-print(paragraph_element.text)
+paragraph_element = tree.xpath("//p/text()")[0]
+print(paragraph_element)
 
-list_items = tree.findall("body/ul/li")
-print(list_items)
-
+list_items = tree.xpath("//li")
 for li in list_items:
-    a = li.find("a")
-    if a is not None:
-        print(f"{li.text.strip()} {a.text}")
-    else:
-        print(li.text)
+    text = ''.join(map(str.strip, li.xpath(".//text()")))
+    print(text)
+
 
