@@ -1,6 +1,20 @@
 import requests
 from lxml import html
 import re
+import json
+import csv
+
+def write_to_json(filename, data):
+    f = open(filename, 'w')
+    f.write(json.dumps(data))
+    f.close()
+
+def write_to_csv(filename, data):
+    headers = ['title','price','in_stock','description']
+    with open(filename, 'w') as f:
+        writer = csv.DictWriter(f, headers)
+        writer.writeheader()
+        writer.writerow(data)
 
 resp = requests.get(url="http://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html",
                     headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'})
@@ -23,6 +37,8 @@ book_information = {
 }
 
 print(book_information)
+write_to_csv("book.csv", book_information)
+
 
 
 
